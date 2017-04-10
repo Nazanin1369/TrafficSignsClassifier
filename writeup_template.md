@@ -17,10 +17,11 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[histogram]: ./docs/histogram.png "Histogram"
+[histogram]: ./output/output_17_0.png "Histogram"
 [training_chart]: ./docs/training_chart.png "Training Chart"
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
+[transformation]: ./output/output_28_0.png "Transformation"
 
 
 ## Rubric Points
@@ -29,15 +30,13 @@ The goals / steps of this project are the following:
 ---
 ###Writeup / README
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
-You're reading it! and here is a link to my [project code](https://github.com/Maesla/Traffic-Sign-Classifier/blob/master/Traffic_Sign_Classifier.ipynb)
+You're reading it! and here is a link to my [project code](https://github.com/Nazanin1369/TrafficSignsClassifier/blob/master/Traffic_Sign_Classifier.ipynb)
 
 ###Data Set Summary & Exploration
 
 ####1. Provide a basic summary of the data set and identify where in your code the summary was done. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
 
-The code for this step is contained in the second code cell of the IPython notebook.  
+The code for this step is contained in the three to five code cells of the IPython notebook.  
 
 I use the basic python built-in method **len()** in order to get the required information. I have also used some numpy functionality. I have used **unique**, to get the number of classes and shape to get the image shape
 
@@ -63,16 +62,16 @@ I tried several colorspaces, starting from original RGB followed by YUV where Y 
 
 Next, we need to generate fake data for several reasons :
 
-To balance our dataset
-For training purposes, ideally we should have had lot of tracks and only a few images per track but this is not the case.
-In general, small perturbations in our original dataset will increase robustness of CNNs later.
+* To balance our dataset
+* For training purposes, ideally we should have had lot of tracks and only a few images per track but this is not the case.
+* In general, small perturbations in our original dataset will increase robustness of CNNs later.
+
 I generated fake data by performing geometric transformations (see code cells 15-18 of Project.ipynb). Here are some of the transformations I used :
-\pic
 
 Scaling : chosen randoly between 0.85 and 1.1 for both x and y directions.
 Translation : Random shift by at most 2 pixels in x/y directions.
 Rotation : Rotation by angle randomly chosen in the range (-17,17) 
-\pic
+![alt text][transformation]
 
 I applied random image transforms to every odd numbered image in training dataset with the idea being that consecutive images have similar resolution. Further, I augment existing dataset to make it balanced by requiring 3000 examples per class in training set. Here is the final class distributions after augmentation : 
 \pic
