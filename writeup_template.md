@@ -18,10 +18,15 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [histogram]: ./output/output_17_0.png "Histogram"
-[training_chart]: ./docs/training_chart.png "Training Chart"
+[classDistribution]: ./output/output_19_0.png "Class Dirstribution"
+[augmentedDist]: ./output/output_26_1.png "Augmented Dirstribution"
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
 [transformation]: ./output/output_28_0.png "Transformation"
+[random]: ./output/output_30_0.png "Random Transformation"
+[confusionMatrix]: ./output/output_45_1.png "Confusion Matrix"
+[pred1]: ./output/output_53_0.png "Predictions"
+[pred2]: ./output/output_54_0.png "Softmaxes"
 
 
 ## Rubric Points
@@ -50,9 +55,13 @@ I use the basic python built-in method **len()** in order to get the required in
 
 The code for this step is contained in the third code cell of the IPython notebook.  
 
-Basically, we need the histogram of the training labels. To obtain this, I use the numpy **histogram** method
+Basically, we need the histogram of the training, testing and validation labels. To obtain this, I use the Matplotlib **hist** method
 
 ![alt text][histogram]
+
+And this is the class distribution for all the data:
+
+![alt text][classDistribution]
 
 ###Design and Test a Model Architecture
 
@@ -71,22 +80,23 @@ I generated fake data by performing geometric transformations (see code cells 15
 Scaling : chosen randoly between 0.85 and 1.1 for both x and y directions.
 Translation : Random shift by at most 2 pixels in x/y directions.
 Rotation : Rotation by angle randomly chosen in the range (-17,17) 
+
 ![alt text][transformation]
 
 I applied random image transforms to every odd numbered image in training dataset with the idea being that consecutive images have similar resolution. Further, I augment existing dataset to make it balanced by requiring 3000 examples per class in training set. Here is the final class distributions after augmentation : 
-\pic
+![alt text][augmentedDist]
+
 
 To augment data, a combination of the above transformations is used. Here is an example of random transformations on the same image : 
-
+![alt text][random]
 
 ####2. Describe how, and identify where in your code, you set up training, validation and testing data. How much data was in each set? Explain what techniques were used to split the data into these sets. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, identify where in your code, and provide example images of the additional data)
 
-The code for splitting the data into training and validation sets is contained in the first code cell of the IPython notebook.  
+The code for splitting the data into training and validation sets is contained in the second code cell of the IPython notebook.  
 
 To cross validate my model, I randomly split the training data into a training set and validation set. I did this by **train\_test\_split** from **sklearn.model_selection**. I split the train test by a 20%.
 
-My final training set had 27839 number of images. My validation set and test set had 6960 and 12630 number of images.
-
+My final training set had 215000 number of images. My validation set and test set had 1290 and 12630 number of images. This is after data augmentation which explaained above.
 
 
 ####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
@@ -108,7 +118,7 @@ This arrangement is repeated 3 times so that we have a total of 6 conv layers. T
 
 repeated twice. Each fully-connected layers has size of 128. Softmax function is applied on final output layer for computing loss.
 
-Please see code cell 23 for implementation in Tensorflow and code cell 24 for training.
+Please see code cell 19 for implementation in Tensorflow and code cell 23 for training.
 
 
 ####4. Describe how, and identify where in your code, you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
@@ -127,7 +137,7 @@ A test set accuracy of 98.2% was obtained! It is quite remarkable that VGGnet in
 
 Let us now plot the confusion matrix to see where the model actually fails. Note that we plot the log of confusion matrix due to very high accuracy. 
 
-\pic
+![alt text][confusionMatrix]
 
 Some clusters can be observed in the confusion matrix above. It turns out that the various speed limits are sometimes misclassified among themselves. Similarly, traffic signs with traingular shape are misclassified among themselves. I believe the model can be further improved by using hierarchical CNNs to first identify broader groups like speed signs and then have CNNs to classify finer features such as the actual speed limit.
 
@@ -158,20 +168,20 @@ Finally, thanks to all these all changes, the results were very good. The test a
 
 Here are five German traffic signs that I found on the web:
 
-<img src="./predictions/yield-13.png" width="200">
-<img src="./predictions/wild_animals_crossing-31.png" width="200">
-<img src="./predictions/stop-14.png" width="200">
-<img src="./predictions/speed_limit_30-1.png" width="200">
-<img src="./predictions/bumpy_road-22.png" width="200">
+<img src="./myData/Go-straight-or-left.jpg" width="200">
+<img src="./myData/keep-right.jpg" width="200">
+<img src="./myData/no-vehicles.jpg" width="200">
+<img src="./myData/road-narrows.jpg" width="200">
+<img src="./myData/speed-limit-30-kmh.jpg" width="200">
 
 
-I tried to mix very common signals, like yield and stop, with others less common, like no vehicles
+I tried to mix very common signals, like speed-limit and stop, with others less common, like no vehicles
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
-The code for making predictions on my final model is located in the fifteenth cell of the Ipython notebook.
+The code for making predictions on my final model is located in the tewnty-nineth cell of the Ipython notebook.
 
-<img src="./docs/prediction_histogram.png" width="200">
+![alt text][pred1]
 
 Here are the results of the prediction:
 
@@ -180,21 +190,22 @@ Here are the results of the prediction:
 |:---------------------:|:---------------------------------------------:| 
 | Stop      		    | Stop   									    | 
 | Keep Right     		| Keep Right								    |
-| No Vehicles			| No Vehicles								    |
-| 30 km/h	      		| 100 km/h					 				    |
+| No Vehicles			  | No Vehicles								    |
+| 30 km/h	      		| 30 km/h					 				    |
 | Road Narrows			| Road Narrows    							    |
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. 
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%.
+
+![alt text][pred2]
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction and identify where in your code softmax probabilities were outputted. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 17th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 30th cell of the Ipython notebook.
 
 
-It is interesting that the sucess images have a softmax index very near to 1, instead of the wrong one, that it s prediction is low (0.38). In the wrong one, the right answer appears in the 4th position.
-
-Clearly the model recognize the shapes very well. Stop and yield are two signals specifically designed to have a unique shape. The net has recognized both with not doubt (1.0 and 0.98). The other two triangular shapes have been recognized too, but with less accuracy, but still high (0.81 and 0.74). Finally, the wrong one is the one with lower value (0.38), and with higher followers. In fact, the right prediction is in the top 5 as well. I think the problem with this signal is that it is rounded, and there are so much rounded signals to choose between them.
+It is interesting that the sucess images have a softmax index 1, instead of the wrong one.
+Clearly the model recognize the shapes very well. 
 
 The first image is a **Stop**
 
@@ -211,9 +222,9 @@ The second image is a  **Keep Right**
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| 0.81        			| Keep Right   						            | 
-| 0.14     				| Road Work 								    |
-| 0.03					| Dangerous curve to the left					|
+| 1.0       			| Keep Right   						            | 
+| 0.00     				| Irrelevant 								    |
+| 0.00					| Irrelevant					|
 | 0.00	      			| Irrelevant					 				|
 | 0.00				    | Irrelevant      							    | 
 
@@ -221,8 +232,8 @@ The third image is a  **No Vehicles**
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| 0.98        			| No Vehicles   								| 
-| 0.00     				| Turn right ahead 								|
+| 1.00        			| No Vehicles   								| 
+| 0.00     				| Irrelevant								|
 | 0.00					| Irrelevant									|
 | 0.00	      			| Irrelevant					 				|
 | 0.00				    | Irrelevant      		
@@ -231,18 +242,18 @@ The fourth image is a  **30 km/h**
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| 0.38        			| 30 km/h   									| 
-| 0.17     				| Turn right ahead 										|
-| 0.13					| Priority road											|
-| 0.13	      			| Speed limit (30 km/h)					 				|
-| 0.05				    | No passing for vehicles over 3.5 metric tons      		
+| 1.00        			| 30 km/h   									| 
+| 0.00     				| Irrelevant 										|
+| 0.00					| Irrelevant										|
+| 0.00	      			| Irrelevant					 				|
+| 0.00				    |Irrelevant      		
 
 The fifth image is a  **Road Narrows**
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| 0.74        			| Road Narrows   									| 
-| 0.18     				| Road work 										|
-| 0.02					| Bicycles crossing											|
-| 0.02	      			| Traffic signals					 				|
+| 1.00        			| Road Narrows   									| 
+| 0.00     				| Irrelevant								|
+| 0.00					| Irrelevant						|
+| 0.00	      			| Irrelevant		 				|
 | 0.00				    | Irrelevant      		
