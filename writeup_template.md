@@ -175,7 +175,7 @@ Here are five German traffic signs that I found on the web:
 <img src="./myData/speed-limit-30-kmh.jpg" width="200">
 
 
-I tried to mix very common signals, like speed-limit and stop, with others less common, like no vehicles
+I tried to mix very common signals, like speed-limit and stop, with others less common, like no vehicles. Some of these images are not much seen in the training datasets like no-vehicles. There are also having different zooms and backgrounds. 
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
