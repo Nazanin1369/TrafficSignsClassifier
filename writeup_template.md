@@ -195,7 +195,7 @@ Here are the results of the prediction:
 | Road Narrows			| Road Narrows    							    |
 
 
-The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%.
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. Comparing to 98% accuracy on testing images before.
 
 ![alt text][pred2]
 
